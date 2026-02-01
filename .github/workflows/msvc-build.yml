@@ -46,7 +46,8 @@ jobs:
         run: python -m pip install --find-links dist testpkg
 
       - name: Test C extension
-        run: python -c "import testpkg; result = testpkg.add(5, 3); assert result == 8, f'Expected 8, got {result}'; print(f'Test passed: add(5, 3) = {result}')"
+        run: |
+          python -c "import testpkg; result = testpkg.add(5, 3); assert result == 8, f'Expected 8, got {result}'; print(f'Test passed: add(5, 3) = {result}')"
 
       - name: Upload wheel
         uses: actions/upload-artifact@v4
