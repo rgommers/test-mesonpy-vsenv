@@ -1,0 +1,20 @@
+[build-system]
+build-backend = 'mesonpy'
+backend-path = ['vendor/meson-python']
+requires = [
+  'packaging >= 23.2',
+  'pyproject-metadata >= 0.9.0',
+]
+
+[project]
+name = 'testpkg'
+version = '0.1.0'
+description = 'Test package for MSVC support in meson-python'
+readme = 'README.md'
+requires-python = '>= 3.9'
+
+[tool.meson-python]
+meson = 'vendor/meson.py'
+
+[tool.meson-python.args]
+setup = ['--vsenv']

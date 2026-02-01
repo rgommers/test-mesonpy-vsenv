@@ -1,0 +1,55 @@
+name: MSVC Build Test
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-test:
+    name: Build on Windows (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x64
+            runner: windows-latest
+          # Uncomment when windows-arm64 runners become available
+          # - arch: arm64
+          #   runner: windows-arm64
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install ninja
+        run: python -m pip install ninja
+
+      - name: Install build dependencies
+        run: python -m pip install build
+
+      - name: Build package
+        run: python -m build --wheel
+
+      - name: Install package
+        run: python -m pip install --find-links dist testpkg
+
+      - name: Test C extension
+        run: python -c "import testpkg; result = testpkg.add(5, 3); assert result == 8, f'Expected 8, got {result}'; print(f'Test passed: add(5, 3) = {result}')"
+
+      - name: Upload wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheel-${{ matrix.arch }}
+          path: dist/*.whl
