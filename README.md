@@ -10,9 +10,10 @@ This repository demonstrates and validates MSVC compiler support in meson-python
 
 ```
 test-mesonpy-vsenv/
-├── testpkg/
-│   ├── __init__.py          # Python package
-│   └── module.c             # Simple C extension with add() function
+├── src/
+│   └── testpkg/
+│       ├── __init__.py      # Python package
+│       └── module.c         # Simple C extension with add() function
 ├── vendor/
 │   ├── meson/               # Git submodule: meson build system
 │   ├── meson-python/        # Git submodule: meson-python backend
