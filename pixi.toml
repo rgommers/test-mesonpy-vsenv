@@ -13,9 +13,10 @@ pyproject-metadata = ">=0.9.0"
 ninja = ">=1.11"
 compilers = "*"
 pip = "*"
+pytest = ">=6.0"
 
 [tasks]
 build = "python -m build -wnx"
-test = { cmd = "python -c \"import testpkg; result = testpkg.add(5, 3); assert result == 8, f'Expected 8, got {result}'; print(f'Test passed: add(5, 3) = {result}')\"", depends-on = ["install"] }
+test = { cmd = "pytest tests -v", depends-on = ["install"] }
 install = { cmd = "python -m pip install --force-reinstall --no-deps --find-links dist testpkg", depends-on = ["build"] }
-clean = "rm -rf build dist .mesonpy-*"
+clean = "rm -rf build dist .mesonpy-* *.egg-info"

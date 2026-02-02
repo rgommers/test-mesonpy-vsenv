@@ -34,7 +34,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install build dependencies
-        run: python -m pip install build
+        run: python -m pip install build pytest
 
       - name: Build package
         run: python -m build --wheel
@@ -43,8 +43,7 @@ jobs:
         run: python -m pip install --find-links dist testpkg
 
       - name: Test C extension
-        run: |
-          python -c "import testpkg; result = testpkg.add(5, 3); assert result == 8, f'Expected 8, got {result}'; print(f'Test passed: add(5, 3) = {result}')"
+        run: pytest tests -v
 
       - name: Upload wheel
         uses: actions/upload-artifact@v4
