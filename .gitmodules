@@ -1,6 +1,6 @@
 [submodule "vendor/meson"]
 	path = vendor/meson
-	url = https://github.com/mesonbuild/meson.git
+	url = https://github.com/rgommers/meson.git
 [submodule "vendor/meson-python"]
 	path = vendor/meson-python
-	url = https://github.com/mesonbuild/meson-python.git
+	url = https://github.com/rgommers/meson-python.git
