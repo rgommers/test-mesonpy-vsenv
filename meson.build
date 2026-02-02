@@ -4,12 +4,12 @@ py = import('python').find_installation(pure: false)
 
 py.extension_module(
   'module',
-  'testpkg/module.c',
+  'src/testpkg/module.c',
   install: true,
   subdir: 'testpkg',
 )
 
 py.install_sources(
-  'testpkg/__init__.py',
+  'src/testpkg/__init__.py',
   subdir: 'testpkg',
 )
