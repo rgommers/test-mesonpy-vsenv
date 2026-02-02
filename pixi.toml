@@ -18,4 +18,4 @@ pip = "*"
 build = "python -m build -wnx"
 test = { cmd = "python -c \"import testpkg; result = testpkg.add(5, 3); assert result == 8, f'Expected 8, got {result}'; print(f'Test passed: add(5, 3) = {result}')\"", depends-on = ["install"] }
 install = { cmd = "python -m pip install --force-reinstall --no-deps --find-links dist testpkg", depends-on = ["build"] }
-clean = "rm -rf build dist .mesonpy-* *.egg-info"
+clean = "rm -rf build dist .mesonpy-*"
