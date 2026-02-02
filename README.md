@@ -14,6 +14,8 @@ test-mesonpy-vsenv/
 │   └── testpkg/
 │       ├── __init__.py      # Python package
 │       └── module.c         # Simple C extension with add() function
+├── tests/
+│   └── test_module.py       # Pytest-based unit tests
 ├── vendor/
 │   ├── meson/               # Git submodule: meson build system
 │   ├── meson-python/        # Git submodule: meson-python backend
@@ -23,6 +25,7 @@ test-mesonpy-vsenv/
 │       └── msvc-build.yml   # CI workflow for MSVC builds
 ├── meson.build              # Meson build definition
 ├── pyproject.toml           # Build configuration
+├── pixi.toml                # Pixi environment and tasks
 └── README.md
 ```
 
@@ -84,8 +87,21 @@ python -m build --wheel
 # Install the built package
 pip install dist/*.whl
 
-# Test the C extension
-python -c "import testpkg; print(testpkg.add(5, 3))"
+# Run tests
+pytest tests -v
+```
+
+### Using Pixi
+
+```bash
+# Build the package
+pixi run build
+
+# Run tests (automatically builds and installs)
+pixi run test
+
+# Clean build artifacts
+pixi run clean
 ```
 
 ## CI/CD Setup
@@ -94,10 +110,11 @@ The repository includes a GitHub Actions workflow (`.github/workflows/msvc-build
 
 1. Checks out the repository with submodules
 2. Sets up Python 3.11
-3. Installs ninja and build dependencies
+3. Installs build dependencies (build, pytest)
 4. Builds the wheel using `python -m build`
-5. Installs and tests the built package
-6. Uploads the wheel as an artifact
+5. Installs the built package
+6. Runs pytest test suite
+7. Uploads the wheel as an artifact
 
 ### Current Architecture Support
 
@@ -113,10 +130,13 @@ The vendored meson and meson-python submodules will be modified to support:
 - Cross-compilation to arm64 when runners become available
 - Enhanced MSVC architecture detection and configuration
 
-## Test Package
+## Test Package and Test Suite
 
-The `testpkg` package contains a minimal C extension module with a single `add(a, b)` function that returns the sum of two integers. This validates that:
+The `testpkg` package contains a minimal C extension module with a single `add(a, b)` function that returns the sum of two integers.
+
+The `tests/` directory contains a pytest-based test suite (`test_module.py`) with comprehensive unit tests that validate:
 
 - The C compiler (MSVC) is correctly detected and configured
 - C extensions can be built successfully
 - The resulting extension module can be imported and used
+- The `add()` function works correctly with various inputs (positive, negative, zero, mixed)
