@@ -18,6 +18,10 @@ jobs:
         include:
           - arch: x64
             runner: windows-latest
+            python-arch: x64
+          - arch: x86
+            runner: windows-latest
+            python-arch: x86
           # Uncomment when windows-arm64 runners become available
           # - arch: arm64
           #   runner: windows-arm64
@@ -32,6 +36,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          architecture: ${{ matrix.python-arch }}
 
       - name: Install build dependencies
         run: python -m pip install build pytest
